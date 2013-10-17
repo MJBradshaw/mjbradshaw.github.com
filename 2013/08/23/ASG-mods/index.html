@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <title>Analog scan generator modifications</title>
+  <meta name="viewport" content="width=device-width">
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link href="/assets/css/colors-dark.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+  <header id="header">
+    <h1><a href="/"> Mark Bradshaw</a></h1>
+    <p>The personal blog of Mark Bradshaw</p>
+  </header>
+
+
+
+  <div id="page">
+
+
+
+    <div id="sidebar">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/archives">Archive</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/feed.xml">RSS Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+
+
+
+    <div id="content">
+      <article class="post">
+	<p class="meta">Posted on <span class="postdate">Aug 23, 2013</span></p>
+	
+	
+		<h1><a href="/2013/08/23/ASG-mods/">Analog scan generator modifications</a></h1>
+	
+
+	<div class="post-content">
+<p>There have been some undocumented changes made to the analog scan generator card. Some of the relays are missing and there is an additional relay located on the back of the card. I traced these changes on the card and through the microscope to a panel on the back of the microscope. I had been unsure if this panel was for monitoring of the scans or for adding an external scan generator.</p>
+
+<p><img alt="External scan panel" title="This panel added to the back of the microscope allows an external scan generator to be used." src="/images/130823-external-scan-panel.jpg" /></p>
+
+<p>This will be extremely useful later in this project when I replace the internal analog scan generator with a computer controlled digital to analog converter.</p>
+
+<p>The jumpers shown in the right of the picture power the relays that switch the input to the scan amplifier from the internal saw wave generator to the external inputs from these BNC connectors. These are obviously a revision to the board because they have been added by splicing the relay into cut traces on the analog scan gen board.</p>
+
+<p>Besides the x and y scans the other inputs are for screen blanking which I will not need, and the video output the other connection I need to digitize the microscope. Having these connections already made will make my job a lot easier and make for a neat installation when I add my computerized scan generator and recorder.</p>
+</div>
+
+	
+
+</article>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; 2013 Mark Bradshaw. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
+  </footer>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="/assets/js/jquery.mobilemenu.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
+    });
+  </script>
+
+
+
+</body>
+</html>

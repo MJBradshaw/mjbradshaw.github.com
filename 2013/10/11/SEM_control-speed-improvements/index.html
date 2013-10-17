@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <title>SEM_control program speed improvements</title>
+  <meta name="viewport" content="width=device-width">
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link href="/assets/css/colors-dark.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+  <header id="header">
+    <h1><a href="/"> Mark Bradshaw</a></h1>
+    <p>The personal blog of Mark Bradshaw</p>
+  </header>
+
+
+
+  <div id="page">
+
+
+
+    <div id="sidebar">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/archives">Archive</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/feed.xml">RSS Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+
+
+
+    <div id="content">
+      <article class="post">
+	<p class="meta">Posted on <span class="postdate">Oct 11, 2013</span></p>
+	
+	
+		<h1><a href="/2013/10/11/SEM_control-speed-improvements/">SEM_control program speed improvements</a></h1>
+	
+
+	<div class="post-content">
+<p>(SEM_control 1v18) I have found in my tests of the SEM_control program I am developing that it is painfully slow. Even at very low resolutions the scan rate is very slow and hurting the usability of the machine. I have looked into several possible approaches to speed up the the raster but these approaches tend to trade flexibility for speed so I decided to see what improvements I could make optimizing the algorithm I had. I set up a timer in the program to measure the time to complete one complete raster scan. I set the scan resolution to 512x512 pixels with no image updates to the screen.</p>
+
+<ul>
+<li>My baseline raster time for the complete frame was 89 sec.</li>
+
+<li>The first change I made was to remove unnecessary D/A outputs. While traversing the columns of the image the program was writing to the row output at each point. This value is constant for each row so these extra writes were wasteful. Time = 75 sec.</li>
+
+<li>By commenting out either the D/A writes or the A/D reads I was able to test how much time each part of the program was taking. To my surprise the reads were actually taking up most of the time, 80% of the time in the loop. The A/D conversion is much faster than the D/A conversion so this was puzzling. I moved the declaration of the variable used to store the read outside of the loop giving me a small improvement in rate, Time = 74 sec.</li>
+
+<li>The DAQPAD-1200 connects to the parallel port using either a legacy parallel port configuration or the later EPP high speed parallel port configuration. I checked my parallel port configuration under the BIOS and found it was set to ECP mode, a later high speed standard that was not mentioned in the DAQPAD documentation. The newer ECP mode must not be compatible with the DAQPAD, when I changed the parallel port mode to EPP I got a huge gain in raster speed. Time = 29 sec. a 67% improvement in raster speed. This is about 9 kS/s and is probably about at the limit of what is possible with the DAQPAD D/A and my current point by point analog scan generating approach.</li>
+</ul>
+
+<p>Increasing the speed of the raster is a great improvement however for panning and especially focusing it is too still too slow. For the same reasons Amray built an option into the analog scan generator to just scan over a small region of the frame allowing higher speed for focusing. I decided to build the same feature into the SEM_control program. I added a region (on the right side of the screenshot) that will grab the current frame and display a 128x128 pixel box that can be moved around within the frame to aid in focusing on the sample. <img alt="SEM_control 1v18 screenshot" title="SEM_control program 1v18 screenshot showing the new partial field switch, panning buttons, and map." src="/images/131011_SEM_control_1v18_screenshot.jpg" /></p>
+</div>
+
+	
+
+</article>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; 2013 Mark Bradshaw. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
+  </footer>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="/assets/js/jquery.mobilemenu.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
+    });
+  </script>
+
+
+
+</body>
+</html>

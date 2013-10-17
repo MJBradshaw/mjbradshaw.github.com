@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <title>Analog scan speed resistors</title>
+  <meta name="viewport" content="width=device-width">
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link href="/assets/css/colors-dark.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+  <header id="header">
+    <h1><a href="/"> Mark Bradshaw</a></h1>
+    <p>The personal blog of Mark Bradshaw</p>
+  </header>
+
+
+
+  <div id="page">
+
+
+
+    <div id="sidebar">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/archives">Archive</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/feed.xml">RSS Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+
+
+
+    <div id="content">
+      <article class="post">
+	<p class="meta">Posted on <span class="postdate">Aug 28, 2013</span></p>
+	
+	
+		<h1><a href="/2013/08/28/ASG-speed-resistors/">Analog scan speed resistors</a></h1>
+	
+
+	<div class="post-content">
+<p>The Amray generates the raster by using two saw wave generators with different rates as well as some digital logic to reset the waves. These scans are powered by individual zener diodes. These diodes have a nearly constant voltage drop regardless of the current passing through them and are used throughout the microscope to generate stable voltages. In this case however the voltage was anything but stable. When the scan rate switch was set to a fast scan and the test/operate switch on the board was flipped the supply voltage for the x-scan would drop to 8v from 15v intermittently. I determined the test/operate switch was unreliable and replaced it. Then I looked at the scan speed resistors located on the front panel next to the scan rate switch. It was clear that these resistors had been altered and upon closer inspection I found that the resistor for scan rate 1 had been removed altogether and replaced with a jumper in an attempt to speed up the scan. These resistors go to ground so this short was pulling the whole supply low and the current draw had overwhelmed the test/operate switch. I replaced these resistors with the values listed in the schematic.This circuit will be bypassed by the computer but I don’t want it to be in the shorted condition and burning things out.</p>
+
+<p>I tested the zener diodes on the board by pulling ICs out of their sockets to isolate the zeners. Then I used a constant current power supply to provide power as called out on the spec sheet and monitored the voltage drop. While testing the zener diodes I also noticed the voltage drop across one diode fluctuating so I replaced this diode.</p>
+</div>
+
+	
+
+</article>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; 2013 Mark Bradshaw. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
+  </footer>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="/assets/js/jquery.mobilemenu.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
+    });
+  </script>
+
+
+
+</body>
+</html>

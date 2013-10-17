@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Mark Bradshaw</title>
+		<description>The personal blog of Mark Bradshaw</description>
+		<link></link>
+		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>New high water mark for Amray project</title>
+				<description>
+&lt;p&gt;&lt;img alt=&quot;Cu film 2Kx&quot; title=&quot;Edge on view of sputtered Cu film on the order of 25 um thickness&quot; src=&quot;/images/131014_Cufilm_2Kx.jpg&quot; /&gt; The above image is a cross section of a sputtered copper film on the order of 25 um thick captured at 2,000X magnification. The speed improvements that were made to the SEM_control software have been a huge help. It is now much easier to navigate around the sample and focus the beam. This, in addition to a lot of operator improvements have helped to obtain the highest resolution image taken yet! I have been learning to use the final aperture, the spot size and the beam alignment, helping to push the instrument into the range of being a useful microscope.&lt;/p&gt;
+
+&lt;p&gt;I would also like to acknowledge the help I’ve received from the users of the &lt;a href=&quot;http://www.microscopy.com/&quot; title=&quot;Microscopy Listserver&quot;&gt;Microscopy Listserver&lt;/a&gt;. Many thanks to them for their advice on microscope settings, disassembly and cleaning.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 14 Oct 2013 17:06:25 -0400</pubDate>
+				<link>/2013/10/14/Amray+new+best+images/</link>
+				<guid isPermaLink="true">/2013/10/14/Amray+new+best+images/</guid>
+			</item>
+		
+			<item>
+				<title>SEM_control program speed improvements</title>
+				<description>
+&lt;p&gt;(SEM_control 1v18) I have found in my tests of the SEM_control program I am developing that it is painfully slow. Even at very low resolutions the scan rate is very slow and hurting the usability of the machine. I have looked into several possible approaches to speed up the the raster but these approaches tend to trade flexibility for speed so I decided to see what improvements I could make optimizing the algorithm I had. I set up a timer in the program to measure the time to complete one complete raster scan. I set the scan resolution to 512x512 pixels with no image updates to the screen.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;My baseline raster time for the complete frame was 89 sec.&lt;/li&gt;
+
+&lt;li&gt;The first change I made was to remove unnecessary D/A outputs. While traversing the columns of the image the program was writing to the row output at each point. This value is constant for each row so these extra writes were wasteful. Time = 75 sec.&lt;/li&gt;
+
+&lt;li&gt;By commenting out either the D/A writes or the A/D reads I was able to test how much time each part of the program was taking. To my surprise the reads were actually taking up most of the time, 80% of the time in the loop. The A/D conversion is much faster than the D/A conversion so this was puzzling. I moved the declaration of the variable used to store the read outside of the loop giving me a small improvement in rate, Time = 74 sec.&lt;/li&gt;
+
+&lt;li&gt;The DAQPAD-1200 connects to the parallel port using either a legacy parallel port configuration or the later EPP high speed parallel port configuration. I checked my parallel port configuration under the BIOS and found it was set to ECP mode, a later high speed standard that was not mentioned in the DAQPAD documentation. The newer ECP mode must not be compatible with the DAQPAD, when I changed the parallel port mode to EPP I got a huge gain in raster speed. Time = 29 sec. a 67% improvement in raster speed. This is about 9 kS/s and is probably about at the limit of what is possible with the DAQPAD D/A and my current point by point analog scan generating approach.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Increasing the speed of the raster is a great improvement however for panning and especially focusing it is too still too slow. For the same reasons Amray built an option into the analog scan generator to just scan over a small region of the frame allowing higher speed for focusing. I decided to build the same feature into the SEM_control program. I added a region (on the right side of the screenshot) that will grab the current frame and display a 128x128 pixel box that can be moved around within the frame to aid in focusing on the sample. &lt;img alt=&quot;SEM_control 1v18 screenshot&quot; title=&quot;SEM_control program 1v18 screenshot showing the new partial field switch, panning buttons, and map.&quot; src=&quot;/images/131011_SEM_control_1v18_screenshot.jpg&quot; /&gt;&lt;/p&gt;
+</description>
+				<pubDate>Fri, 11 Oct 2013 17:06:25 -0400</pubDate>
+				<link>/2013/10/11/SEM_control-speed-improvements/</link>
+				<guid isPermaLink="true">/2013/10/11/SEM_control-speed-improvements/</guid>
+			</item>
+		
+			<item>
+				<title>Phantom valve opening and closing</title>
+				<description>
+&lt;p&gt;There has been some strange behavior in the operation of the vacuum valves when the vacuum system is set to automatic operation. In automatic mode the valves are controlled by comparators attached to the thermocouple (TC) vacuum gauges. These comparators tell a logic board when there is good vacuum or bad vacuum in any part of the microscope and allow for hysteresis between the two levels. I had noticed the vacuum meter twitching and had some problems with the high vacuum (HV) valve opening too soon but I knew there was a problem when the HV valve started opening and closing while the microscope was idle in high vacuum mode.&lt;/p&gt;
+
+&lt;p&gt;The vacuum control board contains the vacuum valve logic chips as well as the heater circuits for the TC vacuum sensors. On four daughter cards are the amplifiers for the output of the sensors as well as the individual comparators that indicate whether the vacuum is ‘good’ or ‘bad’. Because I noticed some jitter at the vacuum meter on the front panel I decided to start at these daughter boards and work backwards. I looked at the supply voltages going to the daughter boards. All of the supplies looked good except the +15v supply line. After turning on the power it would start at +15v then jitter and drop to about +13v. I removed all of the daughter boards but the jitter continued. It was noticed that there had been some solder rework done on other components of this board. The solder joints on the +15v zener had not been reworked and looked to be poor joints. These were resoldered and the board was retested. This seems to have fixed the problem with the vacuum logic. The +15v supply is stable as is the vacuum meter and no more phantom opening and closing of valves while I attempt to operate the microscope.&lt;/p&gt;
+</description>
+				<pubDate>Fri, 20 Sep 2013 00:00:00 -0400</pubDate>
+				<link>/2013/09/20/ASG-phantom-valves/</link>
+				<guid isPermaLink="true">/2013/09/20/ASG-phantom-valves/</guid>
+			</item>
+		
+			<item>
+				<title>First light for SEM_control program</title>
+				<description>
+&lt;p&gt;&lt;img alt=&quot;stage gear&quot; title=&quot;First image from SEM_control program&quot; src=&quot;/images/130919_gear.jpg&quot; /&gt; Today for the first time the microscope was turned over to the control of the SEM_control software in place of the original analog scan generators and CRT screens. The result is a pretty good first step, the raster scan is clearly working with the signal recording and I was able to capture this image of a small gear on the sample stage at 50X magnification. I still have a long laundry list of improvements I would like to make to the program to improve the speed and useability of the program.&lt;/p&gt;
+</description>
+				<pubDate>Thu, 19 Sep 2013 17:06:25 -0400</pubDate>
+				<link>/2013/09/19/Amray_first_light/</link>
+				<guid isPermaLink="true">/2013/09/19/Amray_first_light/</guid>
+			</item>
+		
+			<item>
+				<title>Analog scan speed resistors</title>
+				<description>
+&lt;p&gt;The Amray generates the raster by using two saw wave generators with different rates as well as some digital logic to reset the waves. These scans are powered by individual zener diodes. These diodes have a nearly constant voltage drop regardless of the current passing through them and are used throughout the microscope to generate stable voltages. In this case however the voltage was anything but stable. When the scan rate switch was set to a fast scan and the test/operate switch on the board was flipped the supply voltage for the x-scan would drop to 8v from 15v intermittently. I determined the test/operate switch was unreliable and replaced it. Then I looked at the scan speed resistors located on the front panel next to the scan rate switch. It was clear that these resistors had been altered and upon closer inspection I found that the resistor for scan rate 1 had been removed altogether and replaced with a jumper in an attempt to speed up the scan. These resistors go to ground so this short was pulling the whole supply low and the current draw had overwhelmed the test/operate switch. I replaced these resistors with the values listed in the schematic.This circuit will be bypassed by the computer but I don’t want it to be in the shorted condition and burning things out.&lt;/p&gt;
+
+&lt;p&gt;I tested the zener diodes on the board by pulling ICs out of their sockets to isolate the zeners. Then I used a constant current power supply to provide power as called out on the spec sheet and monitored the voltage drop. While testing the zener diodes I also noticed the voltage drop across one diode fluctuating so I replaced this diode.&lt;/p&gt;
+</description>
+				<pubDate>Wed, 28 Aug 2013 00:00:00 -0400</pubDate>
+				<link>/2013/08/28/ASG-speed-resistors/</link>
+				<guid isPermaLink="true">/2013/08/28/ASG-speed-resistors/</guid>
+			</item>
+		
+			<item>
+				<title>Analog scan generator modifications</title>
+				<description>
+&lt;p&gt;There have been some undocumented changes made to the analog scan generator card. Some of the relays are missing and there is an additional relay located on the back of the card. I traced these changes on the card and through the microscope to a panel on the back of the microscope. I had been unsure if this panel was for monitoring of the scans or for adding an external scan generator.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt=&quot;External scan panel&quot; title=&quot;This panel added to the back of the microscope allows an external scan generator to be used.&quot; src=&quot;/images/130823-external-scan-panel.jpg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;This will be extremely useful later in this project when I replace the internal analog scan generator with a computer controlled digital to analog converter.&lt;/p&gt;
+
+&lt;p&gt;The jumpers shown in the right of the picture power the relays that switch the input to the scan amplifier from the internal saw wave generator to the external inputs from these BNC connectors. These are obviously a revision to the board because they have been added by splicing the relay into cut traces on the analog scan gen board.&lt;/p&gt;
+
+&lt;p&gt;Besides the x and y scans the other inputs are for screen blanking which I will not need, and the video output the other connection I need to digitize the microscope. Having these connections already made will make my job a lot easier and make for a neat installation when I add my computerized scan generator and recorder.&lt;/p&gt;
+</description>
+				<pubDate>Fri, 23 Aug 2013 00:00:00 -0400</pubDate>
+				<link>/2013/08/23/ASG-mods/</link>
+				<guid isPermaLink="true">/2013/08/23/ASG-mods/</guid>
+			</item>
+		
+			<item>
+				<title>SEM Vacuum System Test</title>
+				<description>
+&lt;p&gt;I have been testing the vacuum system of the Amray SEM checking for leaks. The Amray service manual specifies some very ambitious pump down times for the machine that do not appear to be obtainable with my mechanical pump. This is likely due to the low accuracy of the thermocouple vacuum gauges used in the microscope.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt=&quot;Final aperture&quot; title=&quot;The feed through of the final aperture&quot; src=&quot;/images/130819-final-aperture2.jpg&quot; /&gt; The procedure for checking the vacuum system is to isolate the pump using the valves. Then opening each successive portion of the vacuum system and monitoring the pump down time. All of the parts of my microscope seem to pump down well but when the specimen chamber is pumped the ultimate pressure is a little higher than when it is isolated. There are two possible reasons for this behavior. First, the comparatively large surface area of the specimen chamber could simply be out gassing, releasing gas from the chamber surface. Second, the sample chamber has many penetrations any of which could be leaking. I noticed a very small change in the pressure by changing the position of the final aperture. This final aperture has several sliding o-rings to create a seal and is a likely spot for a leak. I ordered new o-rings for this feedthrough.&lt;/p&gt;
+
+&lt;p&gt;&lt;img alt=&quot;Blanking plate on Amray&quot; title=&quot;Specimen chamber pump down with blanking plate&quot; src=&quot;/images/130819-blanking-plate2.jpg&quot; /&gt; To test the many penetrations and sliding o-ring seals in the specimen chamber door I found a blanking plate of the correct size and pumped down the specimen chamber with this in place. I did not observe any changes in the pressure of the chamber with this door in place so I feel confident that these feedthroughs are sealing.&lt;/p&gt;
+</description>
+				<pubDate>Mon, 19 Aug 2013 17:06:25 -0400</pubDate>
+				<link>/2013/08/19/SEM-vac-check/</link>
+				<guid isPermaLink="true">/2013/08/19/SEM-vac-check/</guid>
+			</item>
+		
+			<item>
+				<title>SEM project overview</title>
+				<description>
+&lt;p&gt;&lt;strong&gt;Amray SEM Project&lt;/strong&gt; &lt;img alt=&quot;Amray AMR-1000 Scanning electron microscope&quot; title=&quot;Amray AMR-1000 scanning electron microscope&quot; src=&quot;/images/130814-Amray1000.jpg&quot; /&gt; The goal of this project is to restore and update an older Amray AMR-1000 scanning electron microscope to a modern work flow. This means using a digital to analog generator to bypass some of the scan generators and replacing the polaroid camera used to record images with a direct electronic read out of the image in real time.&lt;/p&gt;
+
+&lt;p&gt;I am making the code I am developing to run the microscope available under and open source license and hosted on &lt;a href=&quot;https://github.com/MJBradshaw/sem_control&quot;&gt;github&lt;/a&gt;. I’m writing it in python 3.3 with a TkInter GUI. The code is running on WinXP with the National Instruments NIDAQ drivers. For my DAQ hardware I am using a National Instruments DAQPAD-1200.&lt;/p&gt;
+
+&lt;p&gt;In addition I will be going through the electronics of this microscope making repairs.&lt;/p&gt;
+</description>
+				<pubDate>Wed, 14 Aug 2013 17:06:25 -0400</pubDate>
+				<link>/2013/08/14/SEM-project-overview/</link>
+				<guid isPermaLink="true">/2013/08/14/SEM-project-overview/</guid>
+			</item>
+		
+	</channel>
+</rss>

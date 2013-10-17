@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <title>SEM Vacuum System Test</title>
+  <meta name="viewport" content="width=device-width">
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link href="/assets/css/colors-dark.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+  <header id="header">
+    <h1><a href="/"> Mark Bradshaw</a></h1>
+    <p>The personal blog of Mark Bradshaw</p>
+  </header>
+
+
+
+  <div id="page">
+
+
+
+    <div id="sidebar">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/archives">Archive</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/feed.xml">RSS Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+
+
+
+    <div id="content">
+      <article class="post">
+	<p class="meta">Posted on <span class="postdate">Aug 19, 2013</span></p>
+	
+	
+		<h1><a href="/2013/08/19/SEM-vac-check/">SEM Vacuum System Test</a></h1>
+	
+
+	<div class="post-content">
+<p>I have been testing the vacuum system of the Amray SEM checking for leaks. The Amray service manual specifies some very ambitious pump down times for the machine that do not appear to be obtainable with my mechanical pump. This is likely due to the low accuracy of the thermocouple vacuum gauges used in the microscope.</p>
+
+<p><img alt="Final aperture" title="The feed through of the final aperture" src="/images/130819-final-aperture2.jpg" /> The procedure for checking the vacuum system is to isolate the pump using the valves. Then opening each successive portion of the vacuum system and monitoring the pump down time. All of the parts of my microscope seem to pump down well but when the specimen chamber is pumped the ultimate pressure is a little higher than when it is isolated. There are two possible reasons for this behavior. First, the comparatively large surface area of the specimen chamber could simply be out gassing, releasing gas from the chamber surface. Second, the sample chamber has many penetrations any of which could be leaking. I noticed a very small change in the pressure by changing the position of the final aperture. This final aperture has several sliding o-rings to create a seal and is a likely spot for a leak. I ordered new o-rings for this feedthrough.</p>
+
+<p><img alt="Blanking plate on Amray" title="Specimen chamber pump down with blanking plate" src="/images/130819-blanking-plate2.jpg" /> To test the many penetrations and sliding o-ring seals in the specimen chamber door I found a blanking plate of the correct size and pumped down the specimen chamber with this in place. I did not observe any changes in the pressure of the chamber with this door in place so I feel confident that these feedthroughs are sealing.</p>
+</div>
+
+	
+
+</article>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; 2013 Mark Bradshaw. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
+  </footer>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="/assets/js/jquery.mobilemenu.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
+    });
+  </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <title>Phantom valve opening and closing</title>
+  <meta name="viewport" content="width=device-width">
+
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="/assets/css/style.css" rel="stylesheet" />
+  <link href="/assets/css/colors-dark.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+  <header id="header">
+    <h1><a href="/"> Mark Bradshaw</a></h1>
+    <p>The personal blog of Mark Bradshaw</p>
+  </header>
+
+
+
+  <div id="page">
+
+
+
+    <div id="sidebar">
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/archives">Archive</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/feed.xml">RSS Feed</a></li>
+        </ul>
+      </nav>
+    </div>
+
+
+
+    <div id="content">
+      <article class="post">
+	<p class="meta">Posted on <span class="postdate">Sep 20, 2013</span></p>
+	
+	
+		<h1><a href="/2013/09/20/ASG-phantom-valves/">Phantom valve opening and closing</a></h1>
+	
+
+	<div class="post-content">
+<p>There has been some strange behavior in the operation of the vacuum valves when the vacuum system is set to automatic operation. In automatic mode the valves are controlled by comparators attached to the thermocouple (TC) vacuum gauges. These comparators tell a logic board when there is good vacuum or bad vacuum in any part of the microscope and allow for hysteresis between the two levels. I had noticed the vacuum meter twitching and had some problems with the high vacuum (HV) valve opening too soon but I knew there was a problem when the HV valve started opening and closing while the microscope was idle in high vacuum mode.</p>
+
+<p>The vacuum control board contains the vacuum valve logic chips as well as the heater circuits for the TC vacuum sensors. On four daughter cards are the amplifiers for the output of the sensors as well as the individual comparators that indicate whether the vacuum is ‘good’ or ‘bad’. Because I noticed some jitter at the vacuum meter on the front panel I decided to start at these daughter boards and work backwards. I looked at the supply voltages going to the daughter boards. All of the supplies looked good except the +15v supply line. After turning on the power it would start at +15v then jitter and drop to about +13v. I removed all of the daughter boards but the jitter continued. It was noticed that there had been some solder rework done on other components of this board. The solder joints on the +15v zener had not been reworked and looked to be poor joints. These were resoldered and the board was retested. This seems to have fixed the problem with the vacuum logic. The +15v supply is stable as is the vacuum meter and no more phantom opening and closing of valves while I attempt to operate the microscope.</p>
+</div>
+
+	
+
+</article>
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <footer id="footer">
+    <p class="copyright">Copyright &copy; 2013 Mark Bradshaw. Powered by <a href="http://jekyllrb.com">Jekyll</a>, theme by <a href="http://www.webmaster-source.com">Matt Harzewski</a></p>
+  </footer>
+
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <script src="/assets/js/jquery.mobilemenu.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      $('#sidebar nav ul').mobileMenu({'topOptionText': 'Menu', 'prependTo': '#sidebar nav'});
+    });
+  </script>
+
+
+
+</body>
+</html>
